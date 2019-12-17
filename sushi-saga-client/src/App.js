@@ -59,27 +59,38 @@ class App extends Component {
   }
 
   depositBalance = (amount) => {
-    this.setState(prevState => {
-      return {
-        balance: prevState.balance + parseInt(amount, 10)
-      }
-    })
+    if (amount < 0) {
+      alert("You can't deposit negative amounts!")
+    } else if (typeof amount !== 'number') {
+    alert("You must enter a number!")
+    } else {
+      this.setState(prevState => {
+        return {
+          balance: prevState.balance + parseInt(amount, 10)
+        }
+      })
+    }
   }
 
   withdrawBalance = (amount) => {
-    this.setState(prevState => {
-      if (prevState.balance >= amount) {
-        return {
-          balance: prevState.balance - parseInt(amount, 10)
+    if (amount < 0) {
+      alert("You can't withdraw negative amounts!")
+    } else if (typeof amount !== 'number') {
+      alert("You must enter a number!")
+    } else {
+      this.setState(prevState => {
+        if (prevState.balance >= amount) {
+          return {
+            balance: prevState.balance - parseInt(amount, 10)
+          }
+        } else {
+          alert("You can't withdraw more money than you have!")
         }
-      } else {
-        alert("You can't withdraw more money than you have!")
-      }
-    })
+      })
+    }
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="app">
         <SushiContainer sushis={this.state.sushis} sushiIndex={this.state.sushiIndex} moreSushi={this.moreSushi} buySushi={this.buySushi} eatenSushi={this.state.eatenSushi}/>

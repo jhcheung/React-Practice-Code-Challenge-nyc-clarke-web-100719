@@ -1,23 +1,34 @@
-import React, {Fragment} from 'react'
-const SushiWallet = ({ formType, balanceMethod }) => {
+import React, {Component, Fragment} from 'react'
 
+class SushiWallet extends Component {
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        balanceMethod(e.target.money.value)
-        e.target.reset()
-    }
+  state = {
+    money: ""
+  }
+
+  handleChange = (e) => {
+    this.setState({money: parseInt(e.target.value, 10)})
+  }
+
+  handleSubmit = (e) => {
+      e.preventDefault()
+      this.props.balanceMethod(this.state.money)
+      this.setState({ money: "" })
+  }
     
 
-  return (
-      <Fragment>
-        <h4>{formType} Money</h4>
-        <form onSubmit={handleSubmit}>
-            <input defaultValue={null} type="number" name="money" />
-            <input type="submit" value={`${formType} Money`}/>
-        </form>
-      </Fragment>
-  )
+  render () {
+    const { formType } = this.props
+    return (
+        <Fragment>
+          <h4>{formType} Money</h4>
+          <form onSubmit={this.handleSubmit}>
+              <input onChange={this.handleChange} value={this.state.money} type="number" name="money" />
+              <input type="submit" value={`${formType} Money`}/>
+          </form>
+        </Fragment>
+    )
+  }
 }
 
 export default SushiWallet
